@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viscosidade de Newton — MecFlu</title>
+    <meta name="description" content="Simulação interativa da Lei da Viscosidade de Newton para estudo de Mecânica dos Fluidos.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../../legal.css">
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <nav class="topbar" id="topbar">
+        <div class="topbar-inner">
+            <a href="../../index.html" class="logo" title="Voltar ao Hub">
+                <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6m0 8v6M4.93 4.93l4.24 4.24m5.66 5.66l4.24 4.24M2 12h6m8 0h6M4.93 19.07l4.24-4.24m5.66-5.66l4.24-4.24"/></svg>
+                <span>MecFlu</span>
+            </a>
+            <span class="topbar-title">Laboratório de Mecânica dos Fluidos</span>
+        </div>
+    </nav>
+
+    <nav class="experiment-bar" id="experiment-bar">
+        <div class="experiment-bar-inner">
+            <a href="../../index.html" class="exp-back-link" title="Voltar ao Hub">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="12 4 6 10 12 16"/></svg>
+                Experimentos
+            </a>
+            <button class="experiment-tab active" data-exp="newton" id="tab-newton">
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="16" height="2" rx="1"/><rect x="2" y="15" width="16" height="2" rx="1"/><line x1="4" y1="7" x2="14" y2="13"/></svg>
+                <span>Viscosidade de Newton</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ========== EXPERIMENTO: NEWTON ========== -->
+    <div id="exp-newton" class="experiment active">
+        <main class="layout">
+            <aside class="sidebar" id="sidebar-newton">
+                <div class="sidebar-section">
+                    <h2 class="sidebar-heading">Fluido</h2>
+                    <div class="select-wrapper">
+                        <select id="fluid-select">
+                            <option value="custom">Personalizado</option>
+                            <option value="agua">Água (20 °C)</option>
+                            <option value="oleo_motor">Óleo de Motor SAE 30</option>
+                            <option value="glicerina">Glicerina</option>
+                            <option value="mel">Mel</option>
+                            <option value="ar">Ar (20 °C)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="sidebar-section">
+                    <h2 class="sidebar-heading">Parâmetros</h2>
+                    <div class="param-group"><div class="param-header"><label for="viscosity">Viscosidade dinâmica <em>(μ)</em></label><div class="param-value-wrap"><input type="number" id="viscosity-val" class="param-input" min="0" max="15" step="0.000001" value="0.200000"><span class="param-unit">Pa·s</span></div></div><input type="range" id="viscosity" min="0" max="15" step="any" value="0.2"></div>
+                    <div class="param-group"><div class="param-header"><label for="distance">Distância entre placas <em>(y)</em></label><div class="param-value-wrap"><input type="number" id="distance-val" class="param-input" min="0" max="0.2" step="0.000001" value="0.050000"><span class="param-unit">m</span></div></div><input type="range" id="distance" min="0" max="0.2" step="0.001" value="0.05"></div>
+                    <div class="param-group"><div class="param-header"><label for="velocity">Velocidade da placa <em>(v)</em></label><div class="param-value-wrap"><input type="number" id="velocity-val" class="param-input" min="0" max="10" step="0.000001" value="2.000000"><span class="param-unit">m/s</span></div></div><input type="range" id="velocity" min="0" max="10" step="0.1" value="2.0"></div>
+                    <div class="param-group"><div class="param-header"><label for="area">Área de contato <em>(A)</em></label><div class="param-value-wrap"><input type="number" id="area-val" class="param-input" min="0" max="5" step="0.000001" value="1.000000"><span class="param-unit">m²</span></div></div><input type="range" id="area" min="0" max="5" step="0.1" value="1.0"></div>
+                </div>
+                <div class="sidebar-section">
+                    <button id="apply-params" class="apply-btn">
+                        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 10 8 14 16 6"/></svg>
+                        Aplicar
+                    </button>
+                </div>
+            </aside>
+            <div class="content">
+                <header class="page-header"><h1>Lei da Viscosidade <br>de Newton</h1><p class="lead">Simulação interativa do comportamento de fluidos newtonianos entre placas paralelas, com perfil linear de velocidade.</p></header>
+                <section class="card card--canvas" id="visualizacao"><div class="canvas-wrap"><canvas id="fluidCanvas"></canvas><div class="canvas-labels"><span class="canvas-label canvas-label--top" id="label-top">Placa móvel</span><span class="canvas-label canvas-label--bottom">Placa fixa · v = 0</span></div></div></section>
+                <section class="results-grid" id="resultados">
+                    <article class="card card--result"><span class="result-tag">Tensão de cisalhamento</span><div class="result-equation">\[ \tau = \mu \, \frac{v}{y} \]</div><code class="result-substitution" id="stress-subbed">τ = μ × (v / y)</code><div class="result-number"><span id="stress-result" class="result-value">--</span><span class="result-unit">Pa</span></div></article>
+                    <article class="card card--result card--result-primary"><span class="result-tag">Força necessária</span><div class="result-equation">\[ F = \tau \cdot A \]</div><code class="result-substitution" id="force-subbed">F = τ × A</code><div class="result-number"><span id="force-result" class="result-value">--</span><span class="result-unit">N</span></div></article>
+                </section>
+                <section class="card card--dimensional" id="dimensional">
+                    <h2>Análise Dimensional</h2><p class="dimensional-intro">Verificação da consistência das unidades em cada grandeza calculada.</p>
+                    <div class="dim-block"><span class="dim-label">Tensão de cisalhamento — τ</span><div class="dim-steps"><div class="dim-step"><span class="dim-step-tag">Fórmula</span><code class="dim-formula">τ = μ · (v / y)</code></div><div class="dim-step"><span class="dim-step-tag">Unidades</span><code class="dim-formula">[τ] = Pa·s × (m/s) / m</code></div><div class="dim-step"><span class="dim-step-tag">Simplificação</span><code class="dim-formula dim-formula--highlight">[τ] = Pa·s × <sup>m</sup>/<sub>s·m</sub> = Pa·s × <sup>1</sup>/<sub>s</sub> = Pa</code></div><div class="dim-step"><span class="dim-step-tag">Verificação</span><code class="dim-formula dim-formula--values" id="dim-tau-check">—</code></div></div></div>
+                    <hr class="dim-divider">
+                    <div class="dim-block"><span class="dim-label">Força — F</span><div class="dim-steps"><div class="dim-step"><span class="dim-step-tag">Fórmula</span><code class="dim-formula">F = τ · A</code></div><div class="dim-step"><span class="dim-step-tag">Unidades</span><code class="dim-formula">[F] = Pa × m²</code></div><div class="dim-step"><span class="dim-step-tag">Simplificação</span><code class="dim-formula dim-formula--highlight">[F] = <sup>N</sup>/<sub>m²</sub> × m² = N</code></div><div class="dim-step"><span class="dim-step-tag">Verificação</span><code class="dim-formula dim-formula--values" id="dim-force-check">—</code></div></div></div>
+                    <hr class="dim-divider">
+                    <div class="dim-block"><span class="dim-label">Dimensões fundamentais (M, L, T)</span><div class="dim-steps"><div class="dim-step"><span class="dim-step-tag">μ</span><code class="dim-formula">Pa·s = M·L⁻¹·T⁻¹</code></div><div class="dim-step"><span class="dim-step-tag">v / y</span><code class="dim-formula">(m/s) / m = T⁻¹</code></div><div class="dim-step"><span class="dim-step-tag">τ</span><code class="dim-formula">M·L⁻¹·T⁻¹ × T⁻¹ = M·L⁻¹·T⁻²  →  Pa ✓</code></div><div class="dim-step"><span class="dim-step-tag">F</span><code class="dim-formula">M·L⁻¹·T⁻² × L² = M·L·T⁻²  →  N ✓</code></div></div></div>
+                </section>
+                <section class="card card--note" id="teoria"><h2>Sobre o modelo</h2><p>O <strong>perfil de velocidade</strong> é assumido como linear, de modo que \(\frac{dv}{dy}\) equivale a \(\frac{v}{y}\). A tensão de cisalhamento \((\tau)\) é diretamente proporcional ao gradiente de velocidade — característica fundamental de um <strong>fluido newtoniano</strong>.</p><p>Esse modelo simplificado aplica-se a escoamentos laminares entre superfícies planas paralelas, onde uma das placas se move com velocidade constante enquanto a outra permanece estacionária.</p></section>
+            </div>
+        </main>
+    </div>
+
+    <footer class="site-footer">
+        <p>Desenvolvido para estudo pessoal para a disciplina de <strong>Mecânica dos Fluidos</strong></p>
+        <nav class="footer-links">
+            <a href="../../politica-de-privacidade.html">Política de Privacidade</a>
+            <span class="footer-sep">·</span>
+            <a href="../../termos-de-uso.html">Termos de Uso</a>
+        </nav>
+    </footer>
+
+    <!-- LGPD Cookie Banner -->
+    <div class="cookie-banner" id="cookie-banner">
+        <p class="cookie-text">
+            Este site utiliza recursos de terceiros (Google Fonts, MathJax) que podem registrar dados técnicos de acesso.
+            Nenhum dado pessoal é coletado diretamente por este site.
+            Saiba mais na nossa <a href="../../politica-de-privacidade.html">Política de Privacidade</a>.
+        </p>
+        <button class="cookie-btn" id="cookie-accept">Entendi</button>
+    </div>
+
+    <script src="../../shared/utils.js"></script>
+    <script src="./newton.js"></script>
+    <script>
+        (function() {
+            var banner = document.getElementById('cookie-banner');
+            var btn    = document.getElementById('cookie-accept');
+            if (localStorage.getItem('mecflu_cookie_consent')) {
+                banner.classList.add('hidden');
+            }
+            btn.addEventListener('click', function() {
+                localStorage.setItem('mecflu_cookie_consent', '1');
+                banner.classList.add('hidden');
+            });
+        })();
+    </script>
+</body>
+</html>

@@ -3,19 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador — Mecânica dos Fluidos</title>
-    <meta name="description" content="Simulador interativo de Mecânica dos Fluidos.">
+    <title>MecFlu — Laboratório Virtual de Mecânica dos Fluidos</title>
+    <meta name="description" content="Simulações interativas para estudo pessoal de Mecânica dos Fluidos — Engenharia Ambiental e Sanitária, UFPel.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="legal.css">
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        /* ====== HUB PAGE STYLES ====== */
+        .hub-hero {
+            background: linear-gradient(135deg, #1c2536 0%, #14202e 60%, #0f1724 100%);
+            color: #fff;
+            padding: 5rem 2rem 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hub-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(37,99,235,.18) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hub-hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            background: rgba(37,99,235,.15);
+            border: 1px solid rgba(37,99,235,.3);
+            color: #93c5fd;
+            font-family: var(--sans);
+            font-size: .75rem;
+            font-weight: 600;
+            letter-spacing: .8px;
+            text-transform: uppercase;
+            padding: .35rem .9rem;
+            border-radius: 999px;
+            margin-bottom: 1.5rem;
+        }
+        .hub-hero h1 {
+            font-family: var(--serif);
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 600;
+            line-height: 1.2;
+            color: #fff;
+            max-width: 640px;
+            margin: 0 auto 1.2rem;
+        }
+        .hub-hero p {
+            font-family: var(--sans);
+            font-size: 1.05rem;
+            color: rgba(255,255,255,.6);
+            max-width: 520px;
+            margin: 0 auto;
+            line-height: 1.7;
+        }
+        .hub-body {
+            background: var(--bg);
+            padding: 3.5rem 2rem 5rem;
+        }
+        .hub-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .hub-section-title {
+            font-family: var(--sans);
+            font-size: .7rem;
+            font-weight: 600;
+            letter-spacing: 1.4px;
+            text-transform: uppercase;
+            color: var(--ink-light);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .hub-section-title::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+        .hub-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .exp-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            text-decoration: none;
+            color: inherit;
+            transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .exp-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 3px;
+            background: var(--accent);
+            border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+            transform: scaleX(0);
+            transition: transform .3s ease;
+            transform-origin: left;
+        }
+        .exp-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0,0,0,.1);
+            border-color: rgba(37,99,235,.2);
+        }
+        .exp-card:hover::before { transform: scaleX(1); }
+        .exp-card-discipline {
+            font-family: var(--sans);
+            font-size: .68rem;
+            font-weight: 600;
+            letter-spacing: .8px;
+            text-transform: uppercase;
+            color: var(--accent);
+            background: rgba(37,99,235,.08);
+            padding: .25rem .65rem;
+            border-radius: 999px;
+            align-self: flex-start;
+        }
+        .exp-card-icon {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, rgba(37,99,235,.12), rgba(37,99,235,.04));
+            border: 1px solid rgba(37,99,235,.15);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+        }
+        .exp-card-icon svg { width: 26px; height: 26px; }
+        .exp-card-title {
+            font-family: var(--serif);
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--ink);
+            line-height: 1.3;
+        }
+        .exp-card-desc {
+            font-family: var(--sans);
+            font-size: .88rem;
+            color: var(--ink-mid);
+            line-height: 1.6;
+            flex: 1;
+        }
+        .exp-card-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            font-family: var(--sans);
+            font-size: .85rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-top: .5rem;
+            transition: gap .2s ease;
+        }
+        .exp-card:hover .exp-card-btn { gap: .8rem; }
+        .exp-card-btn svg { width: 16px; height: 16px; }
+
+        /* Placeholder card (futuro) */
+        .exp-card--soon {
+            border-style: dashed;
+            opacity: .5;
+            pointer-events: none;
+            background: transparent;
+        }
+        .exp-card--soon::before { display: none; }
+        .exp-card-soon-label {
+            font-family: var(--mono);
+            font-size: .72rem;
+            color: var(--ink-light);
+            background: var(--border);
+            padding: .2rem .6rem;
+            border-radius: 4px;
+            align-self: flex-start;
+        }
+    </style>
 </head>
 <body>
     <nav class="topbar" id="topbar">
         <div class="topbar-inner">
-            <a href="#" class="logo">
+            <a href="index.html" class="logo">
                 <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v6m0 8v6M4.93 4.93l4.24 4.24m5.66 5.66l4.24 4.24M2 12h6m8 0h6M4.93 19.07l4.24-4.24m5.66-5.66l4.24-4.24"/></svg>
                 <span>MecFlu</span>
             </a>
@@ -23,54 +204,49 @@
         </div>
     </nav>
 
+    <!-- HERO -->
+    <section class="hub-hero">
+        <div class="hub-hero-badge">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l2 2"/></svg>
+            Engenharia Ambiental e Sanitária — UFPel
+        </div>
+        <h1>Laboratório Virtual de Mecânica dos Fluidos</h1>
+        <p>Simulações interativas para estudo pessoal dos conceitos fundamentais de Mecânica dos Fluidos.</p>
+    </section>
 
+    <!-- EXPERIMENTOS -->
+    <div class="hub-body">
+        <div class="hub-inner">
+            <p class="hub-section-title">Experimentos disponíveis</p>
+            <div class="hub-grid">
 
-    <!-- ========== EXPERIMENTO 1: NEWTON ========== -->
-    <div id="exp-newton" class="experiment active">
-        <main class="layout">
-            <aside class="sidebar" id="sidebar-newton">
-                <div class="sidebar-section">
-                    <h2 class="sidebar-heading">Fluido</h2>
-                    <div class="select-wrapper">
-                        <select id="fluid-select">
-                            <option value="custom">Personalizado</option>
-                            <option value="agua" data-viscosity="0.001" data-color="#4a90d9">Água (20 °C)</option>
-                            <option value="oleo_motor" data-viscosity="0.2" data-color="#c9a227">Óleo de Motor SAE 30</option>
-                            <option value="glicerina" data-viscosity="1.5" data-color="#8e6bbf">Glicerina</option>
-                            <option value="mel" data-viscosity="10" data-color="#d4872c">Mel</option>
-                            <option value="ar" data-viscosity="0.000018" data-color="#98b8d4">Ar (20 °C)</option>
-                        </select>
+                <!-- Newton -->
+                <a class="exp-card" href="experiments/newton/index.html" id="card-newton">
+                    <span class="exp-card-discipline">Mecânica dos Fluidos</span>
+                    <div class="exp-card-icon">
+                        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="16" height="2" rx="1"/><rect x="2" y="15" width="16" height="2" rx="1"/><line x1="4" y1="7" x2="14" y2="13"/></svg>
                     </div>
+                    <div class="exp-card-title">Lei da Viscosidade de Newton</div>
+                    <p class="exp-card-desc">Simulação do escoamento laminar entre placas paralelas. Visualize o perfil de velocidade e calcule a tensão de cisalhamento e a força necessária.</p>
+                    <span class="exp-card-btn">
+                        Abrir experimento
+                        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="10" x2="16" y2="10"/><polyline points="11 5 16 10 11 15"/></svg>
+                    </span>
+                </a>
+
+                <!-- Placeholder — próximo experimento -->
+                <div class="exp-card exp-card--soon">
+                    <span class="exp-card-soon-label">Em breve</span>
+                    <div class="exp-card-icon">
+                        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="7"/><path d="M10 6v4l2.5 2.5"/></svg>
+                    </div>
+                    <div class="exp-card-title">Próximo experimento</div>
+                    <p class="exp-card-desc">Novo experimento será adicionado aqui.</p>
                 </div>
-                <div class="sidebar-section">
-                    <h2 class="sidebar-heading">Parâmetros</h2>
-                    <div class="param-group"><div class="param-header"><label for="viscosity">Viscosidade dinâmica <em>(μ)</em></label><output id="viscosity-val" class="param-value">0.200000 Pa·s</output></div><input type="range" id="viscosity" min="0" max="15" step="any" value="0.2"></div>
-                    <div class="param-group"><div class="param-header"><label for="distance">Distância entre placas <em>(y)</em></label><output id="distance-val" class="param-value">0.050000 m</output></div><input type="range" id="distance" min="0" max="0.2" step="0.001" value="0.05"></div>
-                    <div class="param-group"><div class="param-header"><label for="velocity">Velocidade da placa <em>(v)</em></label><output id="velocity-val" class="param-value">2.000000 m/s</output></div><input type="range" id="velocity" min="0" max="10" step="0.1" value="2.0"></div>
-                    <div class="param-group"><div class="param-header"><label for="area">Área de contato <em>(A)</em></label><output id="area-val" class="param-value">1.000000 m²</output></div><input type="range" id="area" min="0" max="5" step="0.1" value="1.0"></div>
-                </div>
-            </aside>
-            <div class="content">
-                <header class="page-header"><h1>Lei da Viscosidade <br>de Newton</h1><p class="lead">Simulação interativa do comportamento de fluidos newtonianos entre placas paralelas, com perfil linear de velocidade.</p></header>
-                <section class="card card--canvas" id="visualizacao"><div class="canvas-wrap"><canvas id="fluidCanvas"></canvas><div class="canvas-labels"><span class="canvas-label canvas-label--top" id="label-top">Placa móvel</span><span class="canvas-label canvas-label--bottom">Placa fixa · v = 0</span></div></div></section>
-                <section class="results-grid" id="resultados">
-                    <article class="card card--result"><span class="result-tag">Tensão de cisalhamento</span><div class="result-equation">\[ \tau = \mu \, \frac{v}{y} \]</div><code class="result-substitution" id="stress-subbed">τ = μ × (v / y)</code><div class="result-number"><span id="stress-result" class="result-value">--</span><span class="result-unit">Pa</span></div></article>
-                    <article class="card card--result card--result-primary"><span class="result-tag">Força necessária</span><div class="result-equation">\[ F = \tau \cdot A \]</div><code class="result-substitution" id="force-subbed">F = τ × A</code><div class="result-number"><span id="force-result" class="result-value">--</span><span class="result-unit">N</span></div></article>
-                </section>
-                <section class="card card--dimensional" id="dimensional">
-                    <h2>Análise Dimensional</h2><p class="dimensional-intro">Verificação da consistência das unidades em cada grandeza calculada.</p>
-                    <div class="dim-block"><span class="dim-label">Tensão de cisalhamento — τ</span><div class="dim-steps"><div class="dim-step"><span class="dim-step-tag">Fórmula</span><code class="dim-formula">τ = μ · (v / y)</code></div><div class="dim-step"><span class="dim-step-tag">Unidades</span><code class="dim-formula">[τ] = Pa·s × (m/s) / m</code></div><div class="dim-step"><span class="dim-step-tag">Simplificação</span><code class="dim-formula dim-formula--highlight">[τ] = Pa·s × <sup>m</sup>/<sub>s·m</sub> = Pa·s × <sup>1</sup>/<sub>s</sub> = Pa</code></div><div class="dim-step"><span class="dim-step-tag">Verificação</span><code class="dim-formula dim-formula--values" id="dim-tau-check">—</code></div></div></div>
-                    <hr class="dim-divider">
-                    <div class="dim-block"><span class="dim-label">Força — F</span><div class="dim-steps"><div class="dim-step"><span class="dim-step-tag">Fórmula</span><code class="dim-formula">F = τ · A</code></div><div class="dim-step"><span class="dim-step-tag">Unidades</span><code class="dim-formula">[F] = Pa × m²</code></div><div class="dim-step"><span class="dim-step-tag">Simplificação</span><code class="dim-formula dim-formula--highlight">[F] = <sup>N</sup>/<sub>m²</sub> × m² = N</code></div><div class="dim-step"><span class="dim-step-tag">Verificação</span><code class="dim-formula dim-formula--values" id="dim-force-check">—</code></div></div></div>
-                    <hr class="dim-divider">
-                    <div class="dim-block"><span class="dim-label">Dimensões fundamentais (M, L, T)</span><div class="dim-steps"><div class="dim-step"><span class="dim-step-tag">μ</span><code class="dim-formula">Pa·s = M·L⁻¹·T⁻¹</code></div><div class="dim-step"><span class="dim-step-tag">v / y</span><code class="dim-formula">(m/s) / m = T⁻¹</code></div><div class="dim-step"><span class="dim-step-tag">τ</span><code class="dim-formula">M·L⁻¹·T⁻¹ × T⁻¹ = M·L⁻¹·T⁻²  →  Pa ✓</code></div><div class="dim-step"><span class="dim-step-tag">F</span><code class="dim-formula">M·L⁻¹·T⁻² × L² = M·L·T⁻²  →  N ✓</code></div></div></div>
-                </section>
-                <section class="card card--note" id="teoria"><h2>Sobre o modelo</h2><p>O <strong>perfil de velocidade</strong> é assumido como linear, de modo que \(\frac{dv}{dy}\) equivale a \(\frac{v}{y}\). A tensão de cisalhamento \((\tau)\) é diretamente proporcional ao gradiente de velocidade — característica fundamental de um <strong>fluido newtoniano</strong>.</p><p>Esse modelo simplificado aplica-se a escoamentos laminares entre superfícies planas paralelas, onde uma das placas se move com velocidade constante enquanto a outra permanece estacionária.</p></section>
+
             </div>
-        </main>
+        </div>
     </div>
-
-
 
     <footer class="site-footer">
         <p>Desenvolvido para estudo pessoal para a disciplina de <strong>Mecânica dos Fluidos</strong></p>
@@ -84,18 +260,16 @@
     <!-- LGPD Cookie Banner -->
     <div class="cookie-banner" id="cookie-banner">
         <p class="cookie-text">
-            Este site utiliza recursos de terceiros (Google Fonts, MathJax) que podem registrar dados técnicos de acesso.
+            Este site utiliza recursos de terceiros (Google Fonts) que podem registrar dados técnicos de acesso.
             Nenhum dado pessoal é coletado diretamente por este site.
             Saiba mais na nossa <a href="politica-de-privacidade.html">Política de Privacidade</a>.
         </p>
         <button class="cookie-btn" id="cookie-accept">Entendi</button>
     </div>
-
-    <script src="script.js"></script>
     <script>
         (function() {
             var banner = document.getElementById('cookie-banner');
-            var btn = document.getElementById('cookie-accept');
+            var btn    = document.getElementById('cookie-accept');
             if (localStorage.getItem('mecflu_cookie_consent')) {
                 banner.classList.add('hidden');
             }
