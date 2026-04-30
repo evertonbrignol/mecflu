@@ -82,6 +82,7 @@ O arquivo `style.css` define **tokens CSS** usados em todas as páginas. Nunca a
 ## 4. Utilitários Compartilhados (`shared/utils.js`)
 
 Este arquivo declara funções **globais** (não usa `export`) disponíveis para qualquer experimento que o inclua.
+Além das funções, ele injeta automaticamente no `<body>`: rodapé, cookie banner (LGPD) e modal de aviso acadêmico.
 
 ```js
 fmt(n)             // Formata número com 6 casas decimais → "0.200000"
@@ -90,9 +91,16 @@ hexRgba(hex, a)    // Converte cor hex em rgba com opacidade → "rgba(74,144,21
 
 **Como incluir no HTML de um experimento:**
 ```html
-<script src="../../shared/utils.js"></script>   <!-- SEMPRE antes do script do experimento -->
+<!-- SEMPRE antes do script do experimento. Atributos obrigatórios: -->
+<script src="../../shared/utils.js"
+        data-root="../../"
+        data-cookie-services="Google Fonts, MathJax"></script>
 <script src="./nome-experimento.js"></script>
 ```
+
+**Atributos do script:**
+- `data-root` — caminho relativo até a raiz do projeto (ex: `""` para `index.html`, `"../../"` para `experiments/nome/index.html`)
+- `data-cookie-services` — lista de serviços de terceiros carregados na página (padrão: `"Google Fonts"`)
 
 ---
 
@@ -189,40 +197,12 @@ Copie o template abaixo e substitua os campos marcados com `<!-- ALTERAR -->`:
         </main>
     </div>
 
-    <!-- RODAPÉ — caminhos fixos a partir de experiments/nome/ -->
-    <footer class="site-footer">
-        <p>Desenvolvido para estudo pessoal para a disciplina de <strong>Mecânica dos Fluidos</strong></p>
-        <nav class="footer-links">
-            <a href="../../politica-de-privacidade.html">Política de Privacidade</a>
-            <span class="footer-sep">·</span>
-            <a href="../../termos-de-uso.html">Termos de Uso</a>
-        </nav>
-    </footer>
-
-    <!-- COOKIE BANNER — copie exatamente, só altere o href -->
-    <div class="cookie-banner" id="cookie-banner">
-        <p class="cookie-text">
-            Este site utiliza recursos de terceiros (Google Fonts, MathJax) que podem registrar dados técnicos de acesso.
-            Nenhum dado pessoal é coletado diretamente por este site.
-            Saiba mais na nossa <a href="../../politica-de-privacidade.html">Política de Privacidade</a>.
-        </p>
-        <button class="cookie-btn" id="cookie-accept">Entendi</button>
-    </div>
-
-    <!-- SCRIPTS — ordem obrigatória -->
-    <script src="../../shared/utils.js"></script>
+    <!-- SCRIPTS — ordem obrigatória. Rodapé e cookie banner são injetados por utils.js -->
+    <script src="../../shared/utils.js"
+            data-root="../../"
+            data-cookie-services="Google Fonts, MathJax"></script>
+    <!-- Remova MathJax de data-cookie-services se o experimento não usar LaTeX -->
     <script src="./nome-do-experimento.js"></script>
-    <script>
-        (function() {
-            var banner = document.getElementById('cookie-banner');
-            var btn    = document.getElementById('cookie-accept');
-            if (localStorage.getItem('mecflu_cookie_consent')) banner.classList.add('hidden');
-            btn.addEventListener('click', function() {
-                localStorage.setItem('mecflu_cookie_consent', '1');
-                banner.classList.add('hidden');
-            });
-        })();
-    </script>
 </body>
 </html>
 ```
@@ -419,11 +399,11 @@ Antes de fazer commit de um novo experimento, verifique:
 - [ ] Pasta criada em `experiments/nome/`
 - [ ] `index.html` com todos os caminhos `../../` corretos
 - [ ] `nome.js` com IIFE e `'use strict'`
-- [ ] `<script src="../../shared/utils.js">` carregado **antes** do JS do experimento
+- [ ] `<script src="../../shared/utils.js" data-root="../../" data-cookie-services="...">` carregado **antes** do JS do experimento
+- [ ] `data-cookie-services` lista todos os serviços de terceiros carregados (ex: `"Google Fonts, MathJax"`)
 - [ ] Todos os valores numéricos exibidos com 6 casas decimais
 - [ ] Proteção contra divisão por zero
 - [ ] Botão "Aplicar" com feedback visual (`apply-btn--done`)
-- [ ] Cookie banner copiado corretamente com paths `../../`
 - [ ] Link "← Experimentos" na barra do experimento apontando para `../../index.html`
 - [ ] Cartão adicionado no hub (`index.html` raiz)
 - [ ] Testado no servidor local (`npx serve .`)

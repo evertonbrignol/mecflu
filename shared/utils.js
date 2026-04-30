@@ -1,9 +1,18 @@
 /* =========================================================
    SHARED UTILITIES — MecFlu
    Funções utilitárias compartilhadas por todos os experimentos.
-   Inclua este arquivo ANTES do script específico do experimento.
+   Inclua este arquivo ANTES do script específico do experimento,
+   com os atributos data-root e data-cookie-services:
+
+   <script src="../../shared/utils.js"
+           data-root="../../"
+           data-cookie-services="Google Fonts, MathJax"></script>
    ========================================================= */
 'use strict';
+
+const _script = document.currentScript;
+const ROOT = (_script && _script.getAttribute('data-root')) || '';
+const COOKIE_SERVICES = (_script && _script.getAttribute('data-cookie-services')) || 'Google Fonts';
 
 /** Formata número com 6 casas decimais */
 function fmt(n) {
@@ -18,14 +27,48 @@ function hexRgba(hex, a) {
     return `rgba(${(n >> 16) & 255},${(n >> 8) & 255},${n & 255},${a})`;
 }
 
-/** Sistema global de Modal de Aviso Acadêmico */
+(function initFooter() {
+    if (document.querySelector('.site-footer')) return;
+    const footer = document.createElement('footer');
+    footer.className = 'site-footer';
+    footer.innerHTML = `
+        <p>Desenvolvido para estudo pessoal para a disciplina de <strong>Mecânica dos Fluidos</strong></p>
+        <nav class="footer-links">
+            <a href="${ROOT}politica-de-privacidade.html">Política de Privacidade</a>
+            <span class="footer-sep">·</span>
+            <a href="${ROOT}termos-de-uso.html">Termos de Uso</a>
+        </nav>
+    `;
+    document.body.appendChild(footer);
+})();
+
+(function initCookieBanner() {
+    if (document.getElementById('cookie-banner')) return;
+    const banner = document.createElement('div');
+    banner.id = 'cookie-banner';
+    banner.className = 'cookie-banner';
+    banner.innerHTML = `
+        <p class="cookie-text">
+            Este site utiliza recursos de terceiros (${COOKIE_SERVICES}) que podem registrar dados técnicos de acesso.
+            Nenhum dado pessoal é coletado diretamente por este site.
+            Saiba mais na nossa <a href="${ROOT}politica-de-privacidade.html">Política de Privacidade</a>.
+        </p>
+        <button class="cookie-btn" id="cookie-accept">Entendi</button>
+    `;
+    document.body.appendChild(banner);
+
+    if (localStorage.getItem('mecflu_cookie_consent')) {
+        banner.classList.add('hidden');
+    }
+    document.getElementById('cookie-accept').addEventListener('click', function () {
+        localStorage.setItem('mecflu_cookie_consent', '1');
+        banner.classList.add('hidden');
+    });
+})();
+
 (function initGlobalModal() {
-    // 1. Injetar botão na topbar
     const topbarInner = document.querySelector('.topbar-inner');
     if (topbarInner && !document.getElementById('open-disclaimer')) {
-        const topbarRight = document.createElement('div');
-        topbarRight.className = 'topbar-left'; // Usando a mesma classe para alinhamento
-        
         const btn = document.createElement('button');
         btn.id = 'open-disclaimer';
         btn.className = 'topbar-btn';
@@ -40,7 +83,6 @@ function hexRgba(hex, a) {
         topbarInner.appendChild(btn);
     }
 
-    // 2. Injetar o HTML do modal se não existir
     if (!document.getElementById('disclaimer-modal')) {
         const modalOverlay = document.createElement('div');
         modalOverlay.id = 'disclaimer-modal';
@@ -73,15 +115,11 @@ function hexRgba(hex, a) {
         document.body.appendChild(modalOverlay);
     }
 
-    // 3. Lógica de abertura e fechamento
     const modal = document.getElementById('disclaimer-modal');
     const btnOpen = document.getElementById('open-disclaimer');
     const btnClose = document.getElementById('close-disclaimer');
 
-    function openModal() {
-        modal.classList.add('active');
-    }
-
+    function openModal() { modal.classList.add('active'); }
     function closeModal() {
         modal.classList.remove('active');
         localStorage.setItem('mecflu_aviso_ciente', '1');
@@ -90,14 +128,9 @@ function hexRgba(hex, a) {
     if (btnOpen) btnOpen.addEventListener('click', openModal);
     if (btnClose) btnClose.addEventListener('click', closeModal);
 
-    // Fechar ao clicar fora do modal
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
-    });
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
 
-    // 4. Mostrar automaticamente na primeira visita
     if (!localStorage.getItem('mecflu_aviso_ciente')) {
-        // Pequeno delay para a transição ficar suave na entrada
         setTimeout(openModal, 400);
     }
 })();
