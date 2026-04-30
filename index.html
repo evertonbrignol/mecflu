@@ -23,18 +23,7 @@
         </div>
     </nav>
 
-    <nav class="experiment-bar" id="experiment-bar">
-        <div class="experiment-bar-inner">
-            <button class="experiment-tab active" data-exp="newton" id="tab-newton">
-                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="16" height="2" rx="1"/><rect x="2" y="15" width="16" height="2" rx="1"/><line x1="4" y1="7" x2="14" y2="13"/></svg>
-                <span>Viscosidade de Newton</span>
-            </button>
-            <button class="experiment-tab" data-exp="barragem" id="tab-barragem">
-                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="6"/><circle cx="10" cy="10" r="3"/></svg>
-                <span>Espalhamento de Óleo</span>
-            </button>
-        </div>
-    </nav>
+
 
     <!-- ========== EXPERIMENTO 1: NEWTON ========== -->
     <div id="exp-newton" class="experiment active">
@@ -55,10 +44,10 @@
                 </div>
                 <div class="sidebar-section">
                     <h2 class="sidebar-heading">Parâmetros</h2>
-                    <div class="param-group"><div class="param-header"><label for="viscosity">Viscosidade dinâmica <em>(μ)</em></label><output id="viscosity-val" class="param-value">0.2000 Pa·s</output></div><input type="range" id="viscosity" min="0.000001" max="15" step="any" value="0.2"></div>
-                    <div class="param-group"><div class="param-header"><label for="distance">Distância entre placas <em>(y)</em></label><output id="distance-val" class="param-value">0.05 m</output></div><input type="range" id="distance" min="0.01" max="0.2" step="0.01" value="0.05"></div>
-                    <div class="param-group"><div class="param-header"><label for="velocity">Velocidade da placa <em>(v)</em></label><output id="velocity-val" class="param-value">2.0 m/s</output></div><input type="range" id="velocity" min="0" max="10" step="0.1" value="2.0"></div>
-                    <div class="param-group"><div class="param-header"><label for="area">Área de contato <em>(A)</em></label><output id="area-val" class="param-value">1.0 m²</output></div><input type="range" id="area" min="0.1" max="5" step="0.1" value="1.0"></div>
+                    <div class="param-group"><div class="param-header"><label for="viscosity">Viscosidade dinâmica <em>(μ)</em></label><output id="viscosity-val" class="param-value">0.200000 Pa·s</output></div><input type="range" id="viscosity" min="0" max="15" step="any" value="0.2"></div>
+                    <div class="param-group"><div class="param-header"><label for="distance">Distância entre placas <em>(y)</em></label><output id="distance-val" class="param-value">0.050000 m</output></div><input type="range" id="distance" min="0" max="0.2" step="0.001" value="0.05"></div>
+                    <div class="param-group"><div class="param-header"><label for="velocity">Velocidade da placa <em>(v)</em></label><output id="velocity-val" class="param-value">2.000000 m/s</output></div><input type="range" id="velocity" min="0" max="10" step="0.1" value="2.0"></div>
+                    <div class="param-group"><div class="param-header"><label for="area">Área de contato <em>(A)</em></label><output id="area-val" class="param-value">1.000000 m²</output></div><input type="range" id="area" min="0" max="5" step="0.1" value="1.0"></div>
                 </div>
             </aside>
             <div class="content">
@@ -81,77 +70,7 @@
         </main>
     </div>
 
-    <!-- ========== EXPERIMENTO 2: ESPALHAMENTO ========== -->
-    <div id="exp-barragem" class="experiment">
-        <main class="layout">
-            <aside class="sidebar" id="sidebar-barragem">
-                <div class="sidebar-section">
-                    <h2 class="sidebar-heading">Simulação</h2>
-                    <div class="sim-controls">
-                        <button class="sim-btn" id="sim-play">▶ Iniciar</button>
-                        <button class="sim-btn sim-btn--reset" id="sim-reset">↻ Reiniciar</button>
-                    </div>
-                    <div class="param-group"><div class="param-header"><label>Tempo</label><output id="sim-time" class="param-value">0.0 s</output></div></div>
-                    <div class="param-group"><div class="param-header"><label for="sim-speed">Velocidade da simulação</label><output id="sim-speed-val" class="param-value">1.0×</output></div><input type="range" id="sim-speed" min="0.1" max="5" step="0.1" value="1.0"></div>
-                </div>
-                <div class="sidebar-section">
-                    <h2 class="sidebar-heading"><span class="oil-dot oil-dot--a"></span> Óleo A</h2>
-                    <div class="select-wrapper"><select id="oil-a-select"><option value="custom">Personalizado</option><option value="diesel" selected>Óleo Diesel</option><option value="hidraulico">Óleo Hidráulico</option><option value="motor">Óleo de Motor SAE 30</option><option value="pesado">Óleo Pesado</option></select></div>
-                    <div class="param-group"><div class="param-header"><label for="oil-a-mu">Viscosidade <em>(μ)</em></label><output id="oil-a-mu-val" class="param-value">0.1000 Pa·s</output></div><input type="range" id="oil-a-mu" min="0.001" max="2" step="any" value="0.1"></div>
-                    <div class="param-group"><div class="param-header"><label for="oil-a-rho">Densidade <em>(ρ)</em></label><output id="oil-a-rho-val" class="param-value">870 kg/m³</output></div><input type="range" id="oil-a-rho" min="800" max="950" step="1" value="870"></div>
-                    <div class="param-group"><div class="param-header"><label for="oil-a-vol">Volume <em>(V)</em></label><output id="oil-a-vol-val" class="param-value">0.50 m³</output></div><input type="range" id="oil-a-vol" min="0.05" max="2" step="0.05" value="0.50"></div>
-                </div>
-                <div class="sidebar-section">
-                    <h2 class="sidebar-heading"><span class="oil-dot oil-dot--b"></span> Óleo B</h2>
-                    <div class="select-wrapper"><select id="oil-b-select"><option value="custom">Personalizado</option><option value="diesel">Óleo Diesel</option><option value="hidraulico">Óleo Hidráulico</option><option value="motor" selected>Óleo de Motor SAE 30</option><option value="pesado">Óleo Pesado</option></select></div>
-                    <div class="param-group"><div class="param-header"><label for="oil-b-mu">Viscosidade <em>(μ)</em></label><output id="oil-b-mu-val" class="param-value">0.2000 Pa·s</output></div><input type="range" id="oil-b-mu" min="0.001" max="2" step="any" value="0.2"></div>
-                    <div class="param-group"><div class="param-header"><label for="oil-b-rho">Densidade <em>(ρ)</em></label><output id="oil-b-rho-val" class="param-value">890 kg/m³</output></div><input type="range" id="oil-b-rho" min="800" max="950" step="1" value="890"></div>
-                    <div class="param-group"><div class="param-header"><label for="oil-b-vol">Volume <em>(V)</em></label><output id="oil-b-vol-val" class="param-value">0.50 m³</output></div><input type="range" id="oil-b-vol" min="0.05" max="2" step="0.05" value="0.50"></div>
-                </div>
-            </aside>
-            <div class="content">
-                <header class="page-header"><h1>Espalhamento de Óleo <br>em Superfície</h1><p class="lead">Comparação visual de dois óleos com propriedades distintas se espalhando simultaneamente sobre a superfície de uma barragem, vista de cima. Modelo de Fay — fase gravitacional-viscosa.</p></header>
-                <section class="card card--canvas" id="visualizacao-dam"><div class="canvas-wrap canvas-wrap--square"><canvas id="damCanvas"></canvas><div class="canvas-labels"><span class="canvas-label canvas-label--top" id="dam-time-label">t = 0.0 s</span><span class="canvas-label canvas-label--bottom" id="dam-legend"><span class="oil-dot oil-dot--a"></span> Óleo A &nbsp;&nbsp; <span class="oil-dot oil-dot--b"></span> Óleo B</span></div></div></section>
-                <section class="results-grid" id="resultados-dam">
-                    <article class="card card--result card--result-compare">
-                        <span class="result-tag">Raio de espalhamento</span>
-                        <div class="result-equation">\[ r(t) = K \sqrt{\frac{\Delta\rho \, g \, V \, t}{\mu}} \]</div>
-                        <div class="compare-row"><code class="result-substitution result-sub--a" id="dam-rA-sub">rA = —</code><code class="result-substitution result-sub--b" id="dam-rB-sub">rB = —</code></div>
-                        <div class="compare-row"><div class="result-number"><span class="oil-dot oil-dot--a"></span><span id="dam-rA" class="result-value">--</span><span class="result-unit">m</span></div><div class="result-number"><span class="oil-dot oil-dot--b"></span><span id="dam-rB" class="result-value">--</span><span class="result-unit">m</span></div></div>
-                    </article>
-                    <article class="card card--result card--result-primary card--result-compare">
-                        <span class="result-tag">Área coberta</span>
-                        <div class="result-equation">\[ A(t) = \pi \, r(t)^2 \]</div>
-                        <div class="compare-row"><code class="result-substitution result-sub--a" id="dam-aA-sub">AA = —</code><code class="result-substitution result-sub--b" id="dam-aB-sub">AB = —</code></div>
-                        <div class="compare-row"><div class="result-number"><span class="oil-dot oil-dot--a"></span><span id="dam-areaA" class="result-value">--</span><span class="result-unit">m²</span></div><div class="result-number"><span class="oil-dot oil-dot--b"></span><span id="dam-areaB" class="result-value">--</span><span class="result-unit">m²</span></div></div>
-                    </article>
-                </section>
-                <section class="results-grid" id="resultados-dam-2">
-                    <article class="card card--result card--result-compare">
-                        <span class="result-tag">Velocidade de espalhamento</span>
-                        <div class="result-equation">\[ v(t) = \frac{dr}{dt} = \frac{r(t)}{2t} \]</div>
-                        <div class="compare-row"><div class="result-number"><span class="oil-dot oil-dot--a"></span><span id="dam-vA" class="result-value">--</span><span class="result-unit">m/s</span></div><div class="result-number"><span class="oil-dot oil-dot--b"></span><span id="dam-vB" class="result-value">--</span><span class="result-unit">m/s</span></div></div>
-                    </article>
-                    <article class="card card--result card--result-compare">
-                        <span class="result-tag">Razão de espalhamento</span>
-                        <div class="result-equation">\[ \frac{r_A}{r_B} = \sqrt{\frac{\Delta\rho_A \cdot V_A \cdot \mu_B}{\Delta\rho_B \cdot V_B \cdot \mu_A}} \]</div>
-                        <div class="result-number"><span id="dam-ratio" class="result-value">--</span><span class="result-unit" id="dam-ratio-label">rA / rB</span></div>
-                    </article>
-                </section>
-                <section class="card card--dimensional" id="dimensional-dam">
-                    <h2>Análise Dimensional</h2><p class="dimensional-intro">Verificação dimensional do modelo de Fay (fase gravitacional-viscosa).</p>
-                    <div class="dim-block"><span class="dim-label">Raio de espalhamento — r(t)</span><div class="dim-steps"><div class="dim-step"><span class="dim-step-tag">Fórmula</span><code class="dim-formula">r = K · √(Δρ·g·V·t / μ)</code></div><div class="dim-step"><span class="dim-step-tag">Unidades</span><code class="dim-formula">[r] = √((kg/m³)·(m/s²)·m³·s / (kg·m⁻¹·s⁻¹))</code></div><div class="dim-step"><span class="dim-step-tag">Simplificação</span><code class="dim-formula dim-formula--highlight">[r] = √(m²) = m ✓</code></div><div class="dim-step"><span class="dim-step-tag">Verificação</span><code class="dim-formula dim-formula--values" id="dim-dam-r">—</code></div></div></div>
-                    <hr class="dim-divider">
-                    <div class="dim-block"><span class="dim-label">Área coberta — A(t)</span><div class="dim-steps"><div class="dim-step"><span class="dim-step-tag">Fórmula</span><code class="dim-formula">A = π · r²</code></div><div class="dim-step"><span class="dim-step-tag">Unidades</span><code class="dim-formula">[A] = m² ✓</code></div><div class="dim-step"><span class="dim-step-tag">Verificação</span><code class="dim-formula dim-formula--values" id="dim-dam-a">—</code></div></div></div>
-                    <hr class="dim-divider">
-                    <div class="dim-block"><span class="dim-label">Velocidade radial — v(t)</span><div class="dim-steps"><div class="dim-step"><span class="dim-step-tag">Fórmula</span><code class="dim-formula">v = dr/dt = r / (2t)</code></div><div class="dim-step"><span class="dim-step-tag">Unidades</span><code class="dim-formula">[v] = m / s = m·s⁻¹ ✓</code></div><div class="dim-step"><span class="dim-step-tag">Verificação</span><code class="dim-formula dim-formula--values" id="dim-dam-v">—</code></div></div></div>
-                    <hr class="dim-divider">
-                    <div class="dim-block"><span class="dim-label">Dimensões fundamentais (M, L, T)</span><div class="dim-steps"><div class="dim-step"><span class="dim-step-tag">Δρ·g·V·t</span><code class="dim-formula">M·L⁻³ × L·T⁻² × L³ × T = M·L·T⁻¹</code></div><div class="dim-step"><span class="dim-step-tag">μ</span><code class="dim-formula">M·L⁻¹·T⁻¹</code></div><div class="dim-step"><span class="dim-step-tag">r(t)</span><code class="dim-formula">√(M·L·T⁻¹ / M·L⁻¹·T⁻¹) = √(L²) = L → m ✓</code></div></div></div>
-                </section>
-                <section class="card card--note" id="teoria-dam"><h2>Sobre o modelo</h2><p>O modelo de espalhamento gravitacional-viscoso descreve a expansão de uma mancha de óleo sobre a superfície da água. O raio cresce proporcionalmente a \(\sqrt{t}\), o que significa que o espalhamento <strong>desacelera com o tempo</strong>.</p><p>A <strong>viscosidade dinâmica</strong> \((\mu)\) é o fator mais determinante: óleos com menor viscosidade se espalham <strong>muito mais rapidamente</strong>. A diferença de densidade \((\Delta\rho = \rho_{água} - \rho_{óleo})\) também influencia — quanto mais leve o óleo em relação à água, mais rápido o espalhamento.</p><p>A comparação simultânea permite observar como pequenas diferenças nas propriedades físicas resultam em comportamentos de espalhamento <strong>significativamente distintos</strong> ao longo do tempo.</p></section>
-            </div>
-        </main>
-    </div>
+
 
     <footer class="site-footer">
         <p>Desenvolvido para estudo pessoal para a disciplina de <strong>Mecânica dos Fluidos</strong></p>
