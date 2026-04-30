@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="legal.css">
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
@@ -152,7 +153,38 @@
         </main>
     </div>
 
-    <footer class="site-footer"><p>Desenvolvido para a disciplina de <strong>Mecânica dos Fluidos</strong></p></footer>
+    <footer class="site-footer">
+        <p>Desenvolvido para a disciplina de <strong>Mecânica dos Fluidos</strong></p>
+        <nav class="footer-links">
+            <a href="politica-de-privacidade.html">Política de Privacidade</a>
+            <span class="footer-sep">·</span>
+            <a href="termos-de-uso.html">Termos de Uso</a>
+        </nav>
+    </footer>
+
+    <!-- LGPD Cookie Banner -->
+    <div class="cookie-banner" id="cookie-banner">
+        <p class="cookie-text">
+            Este site utiliza recursos de terceiros (Google Fonts, MathJax) que podem registrar dados técnicos de acesso.
+            Nenhum dado pessoal é coletado diretamente por este site.
+            Saiba mais na nossa <a href="politica-de-privacidade.html">Política de Privacidade</a>.
+        </p>
+        <button class="cookie-btn" id="cookie-accept">Entendi</button>
+    </div>
+
     <script src="script.js"></script>
+    <script>
+        (function() {
+            var banner = document.getElementById('cookie-banner');
+            var btn = document.getElementById('cookie-accept');
+            if (localStorage.getItem('mecflu_cookie_consent')) {
+                banner.classList.add('hidden');
+            }
+            btn.addEventListener('click', function() {
+                localStorage.setItem('mecflu_cookie_consent', '1');
+                banner.classList.add('hidden');
+            });
+        })();
+    </script>
 </body>
 </html>

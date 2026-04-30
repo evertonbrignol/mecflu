@@ -1,0 +1,244 @@
+/* =========================================================
+   LEGAL PAGES — Política de Privacidade & Termos de Uso
+   ========================================================= */
+
+/* Legal page layout */
+.legal-page {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 3rem 2rem 4rem;
+}
+
+.legal-container {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 3rem 3.5rem;
+}
+
+/* Back link */
+.legal-back {
+    display: inline-flex;
+    align-items: center;
+    gap: .4rem;
+    font-family: var(--sans);
+    font-size: .85rem;
+    font-weight: 500;
+    color: var(--accent);
+    text-decoration: none;
+    margin-bottom: 2rem;
+    padding: .4rem .8rem;
+    border-radius: var(--radius);
+    transition: background .2s, color .2s;
+}
+
+.legal-back:hover {
+    background: var(--accent-soft);
+    color: var(--accent);
+}
+
+/* Headings */
+.legal-page h1 {
+    font-family: var(--serif);
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -.4px;
+    color: var(--ink);
+    margin-bottom: .5rem;
+}
+
+.legal-updated {
+    font-family: var(--sans);
+    font-size: .82rem;
+    color: var(--ink-light);
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+}
+
+/* Sections */
+.legal-section {
+    margin-bottom: 2rem;
+}
+
+.legal-section h2 {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: .75rem;
+    padding-top: .5rem;
+}
+
+.legal-section p {
+    font-family: var(--sans);
+    font-size: .92rem;
+    line-height: 1.7;
+    color: var(--ink-mid);
+    margin-bottom: .6rem;
+}
+
+.legal-section p:last-child {
+    margin-bottom: 0;
+}
+
+.legal-section strong {
+    color: var(--ink);
+    font-weight: 600;
+}
+
+.legal-section ul {
+    list-style: none;
+    padding: 0;
+    margin: .6rem 0;
+}
+
+.legal-section ul li {
+    font-family: var(--sans);
+    font-size: .9rem;
+    line-height: 1.65;
+    color: var(--ink-mid);
+    padding: .35rem 0 .35rem 1.4rem;
+    position: relative;
+}
+
+.legal-section ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: .75rem;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: .5;
+}
+
+.legal-section ul li strong {
+    color: var(--ink);
+}
+
+.legal-section a {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 500;
+    border-bottom: 1px solid rgba(37, 99, 235, .25);
+    transition: border-color .2s;
+}
+
+.legal-section a:hover {
+    border-bottom-color: var(--accent);
+}
+
+/* Footer links (shared with index) */
+.footer-links {
+    margin-top: .6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    font-size: .75rem;
+    color: var(--ink-light);
+    text-decoration: none;
+    transition: color .2s;
+}
+
+.footer-links a:hover {
+    color: var(--accent);
+}
+
+.footer-sep {
+    color: var(--border);
+    font-size: .75rem;
+}
+
+/* Cookie Banner */
+.cookie-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    background: var(--bg-sidebar);
+    border-top: 1px solid var(--border-light);
+    padding: 1.2rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    animation: slideUp .4s ease;
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, .25);
+}
+
+.cookie-banner.hidden {
+    display: none;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+}
+
+.cookie-text {
+    font-family: var(--sans);
+    font-size: .82rem;
+    color: var(--ink-inv-mid);
+    line-height: 1.5;
+    max-width: 600px;
+}
+
+.cookie-text a {
+    color: var(--ink-inv);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.cookie-text a:hover {
+    color: var(--accent);
+}
+
+.cookie-btn {
+    flex-shrink: 0;
+    padding: .55rem 1.4rem;
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    border-radius: var(--radius);
+    font-family: var(--sans);
+    font-size: .82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .2s, transform .15s;
+}
+
+.cookie-btn:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+/* Responsive legal pages */
+@media (max-width: 768px) {
+    .legal-page {
+        padding: 1.5rem 1rem 3rem;
+    }
+
+    .legal-container {
+        padding: 2rem 1.5rem;
+    }
+
+    .legal-page h1 {
+        font-size: 1.8rem;
+    }
+
+    .cookie-banner {
+        flex-direction: column;
+        gap: .8rem;
+        padding: 1rem 1.25rem;
+        text-align: center;
+    }
+}
