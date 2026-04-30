@@ -140,9 +140,15 @@ function renderN() {
     ctx.clearRect(0, 0, W, H);
     const v    = parseFloat(ui.v.value);
     const dist = parseFloat(ui.y.value);
-    const m = 28, us = H - m * 2;
-    const gF = ((dist - 0.01) / 0.19) * 0.6 + 0.4;
-    const gap = us * gF, bY = H - m, tY = bY - gap;
+    const bY = H - 30; // Placa fixa fica a 30px do fundo
+    const tY_min = 65; // Placa móvel nunca sobe mais que 65px do topo (garante espaço para a seta)
+    const maxGap = bY - tY_min;
+    
+    // Mapeia dist (0 a 0.2) para um gap proporcional (15% a 100% do maxGap)
+    // Assim a placa não se aproxima demais a ponto de "espremer" visualmente as partículas
+    const distRatio = Math.max(0, Math.min(1, dist / 0.2)); 
+    const gap = maxGap * (distRatio * 0.85 + 0.15);
+    const tY = bY - gap;
 
     // Fluido
     const gr = ctx.createLinearGradient(0, tY, 0, bY);
@@ -166,11 +172,20 @@ function renderN() {
         const mX = pX + 50 + v * 10;
         ctx.beginPath(); ctx.moveTo(pX, bY); ctx.lineTo(mX, tY);
         ctx.strokeStyle = "#f59e0b"; ctx.lineWidth = 2; ctx.stroke();
-        for (let i = 1; i <= 5; i++) {
-            const r = i / 6, ly = bY - gap * r, lx = pX + (mX - pX) * r;
+        
+        // Define quantidade de setas intermediárias com base no gap para não sobrepor
+        let numArrows = 5;
+        if (gap < 40) numArrows = 2;
+        if (gap < 15) numArrows = 0;
+        
+        for (let i = 1; i <= numArrows; i++) {
+            const r = i / (numArrows + 1), ly = bY - gap * r, lx = pX + (mX - pX) * r;
             ctx.beginPath(); ctx.moveTo(pX, ly); ctx.lineTo(lx, ly);
             ctx.strokeStyle = "rgba(245,158,11,.50)"; ctx.lineWidth = 1; ctx.stroke();
-            ctx.beginPath(); ctx.moveTo(lx, ly); ctx.lineTo(lx - 4, ly - 3); ctx.lineTo(lx - 4, ly + 3);
+            
+            // Tamanho da ponta da seta proporcional
+            const ah = Math.min(3, gap / 8);
+            ctx.beginPath(); ctx.moveTo(lx, ly); ctx.lineTo(lx - 4, ly - ah); ctx.lineTo(lx - 4, ly + ah);
             ctx.closePath(); ctx.fillStyle = "rgba(245,158,11,.55)"; ctx.fill();
         }
     }
